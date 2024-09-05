@@ -1,0 +1,79 @@
+<% layout('./Layouts/boilerplate') -%>
+<div class="show-box ">
+    <div>
+        <h3><%= data.title %></h3>
+    </div>
+    <div class="show-details">
+        <img src="<%= data.img %>" alt="" class="img">
+        <p class="show-para"><i><%= data.description %></i></p>
+    </div>
+    <div class="price">
+        
+    </div>
+    
+    <div class=" price-card" style="width: 20rem;">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <p>Price: &#8377; <%= data.price.toLocaleString("en-IN") %> </p>
+            </li>
+            <div class="loaction">
+                <li class="list-group-item"><b>Location:</b>  <%= data.location %></li>
+                <li class="list-group-item"><b>Country: </b><%= data.country %></li>
+            </div>
+         
+        </ul>
+      </div>
+    <div class="btns">
+        
+        <form action="/listings/<%= data._id %>/edit">
+            <button class="btn dtn-dark add-btn">Edit</button>
+        </form>
+        <form action="/listings/<%= data._id %>?_method=DELETE" method="post">
+            <button class="btn btn-dark mb-3">Delete</button>
+        </form>
+    </div>
+<!-- ==============================Rating ======================================== -->
+    <div >
+        <h4>Leave Review</h4>
+        <form action="/listings/<%= data._id %>/reviews" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="range" class="form-range" id="rating" name="review[rating]" min="1" max="5" >
+              </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Comment</label>
+                <textarea type="text" class="form-control" name="review[comment]" id="comment" cols="30" rows="5" placeholder="Write Comments" required></textarea>
+                <div class="invalid-feedback">
+                    Please Write Something.
+                  </div>
+                  <div class="valid-feedback">
+                    Now It's Ok.
+                  </div>
+              </div>
+            <button class="btn review-btn">Submit</button>
+        </form>
+        
+
+        <hr>
+        <h4>All Ratings</h4>
+        <div class="review-container">
+            <% for(review of data.reviews) { %>
+            
+                <div class="review-card">
+                    <div class="">
+                        <h5 class="card-title"  style="font-weight: 400;">User Name<b></b></h5>
+                        <p class="card-text" ><b>Comment: </b> <%= review.comment  %></p>
+                        <p class="card-text"><b>Rating: </b> <%= review.rating %><i class="fa-solid fa-star"></i></p>
+                        
+                    </div>
+                    <form method="post" action="/listings/<%= data._id %>/reviews/<%= review._id  %>?_method=DELETE">
+                        <button class="btn btn-sm btn-review">Delete</button>
+                    </form>
+                </div>
+            <% } %>
+        </div>
+       
+    </div>
+   
+    
+</div>
